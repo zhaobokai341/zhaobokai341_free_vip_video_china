@@ -1,6 +1,6 @@
 # zhaobokai341_free_vip_video_in_China.github.io
 
-!(链接直达)[home.html]
+(链接直达)[home.html]
 
 ## 为什么有这个项目
 
@@ -19,4 +19,4 @@
 - 既收集盗版网站，也收集盗版收集网站，并进行分类
 - 支持多个盗版网站同时播放
 
-!(链接直达)[home.html]
+(链接直达)[home.html]
