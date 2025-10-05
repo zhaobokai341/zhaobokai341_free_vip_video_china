@@ -68,11 +68,26 @@
 			.hidden{
 				visibility: hidden;
 			}
+			#error{
+				width: 100%;
+				height: 50px;
+				background-color: red;
+				color: white;
+				font-size: 30px;
+				padding: 10px;
+				position: relative;
+				top: 0;
+				left: 0;
+				display: none;
+			}
 		</style>
 	</head>
 	<body style="background: linear-gradient(45deg, rgb(255, 251, 0), rgb(138, 205, 50), rgb(0, 255, 242));">
+		<div id="error">
+			<a style="float: right; font-size: 30px; color: white; text-decoration: none;" href="javascript:document.getElementById('error').style.display='none'">x</a>
+		</div>
 		<div class="float" style="width: 200px;">
-			<img class="icon" src="favicon.ico" style="float: left;">
+			<img id="icon" src="favicon.ico" style="float: left;">
 			<p class="warning">!! 本网站没有消费和广告，链接来自互联网收集，如有，请勿轻信广告消费内容，若造成损失，概不负责</p>
 		</div>
 		<center>
@@ -90,7 +105,7 @@
 				<a>同时播放</a>
 				<a>复制URL链接</a>
 			</div>
-			<div class="pirated">
+			<div id="pirated">
 				<h2>盗版链接</h2>
 				<details>
 					<summary>盗版收集链接</summary>
@@ -100,26 +115,48 @@
 				</details>
 			</div>
 		</center>
+		<script>
+			function show_error(message){
+				document.getElementById("error").innerHTML = message;
+				document.getElementById("error").style.display = "block";
+			}
+			function pirated_response(){
+				if(window.XMLHttpRequest){
+					var pirated_request = new XMLHttpRequest();
+				}else{
+					var pirated_request = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				try{
+					pirated_request.open("GET","pirated.json",true);
+					pirated_request.send();
+					pirated_request.onreadystatechange = function(){
+						if(pirated_request.readyState == 4 && pirated_request.status == 200){
+							var pirated_json = JSON.parse(pirated_request.responseText);
+							return pirated_json;
+						}else{
+							return `error: pirated_request.readyState(${pirated_request.readyState}) pirated_request.status(${pirated_request.status})`;
+						}
+					}
+				}catch(e){
+				    return `error: ${e}`;
+				}
+			}
+			function show_pirated(pirated_json){
+				if(typeof pirated_json != "object"){
+					show_error(pirated_json);
+					return;
+				}
+			    var class_pirated = document.getElementById("pirated");
+				var pirated = class_pirated.getElementsByTagName("details")[0];
+				var pirated2 = class_pirated.getElementsByTagName("details")[1];
+				for(var i = 0;i < pirated_json["pirated"].length;i++){
+					console.log(pirated_json["pirated"][i]);
+				}
+				for(var i = 0;i < pirated_json["pirated2"].length;i++){
+					console.log(pirated_json["pirated2"][i]);
+				}
+			}
+			show_pirated(pirated_response());
+		</script>
 	</body>
-	<script>
-        function load_pirated(){
-            var class_pirated = document.getElementsByClassName("pirated")[0];
-            var pirated = class_pirated.getElementsByTagName("details")[0];
-            var pirated2 = class_pirated.getElementsByTagName("details")[1];
-            if(window.XMLHttpRequest){
-                var pirated_request = new XMLHttpRequest();
-            }else{
-                var pirated_request = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            pirated_request.open("GET","pirated.json",true);
-            pirated_request.send();
-            pirated_request.onreadystatechange = function(){
-                if(pirated_request.readyState == 4 && pirated_request.status == 200){
-                    var pirated_json = JSON.parse(pirated_request.responseText);
-                    console.log(pirated_json);
-                }
-            }
-        }
-	</script>
 </html>
-
