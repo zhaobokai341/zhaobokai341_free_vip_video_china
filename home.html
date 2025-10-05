@@ -102,6 +102,24 @@
 		</center>
 	</body>
 	<script>
+        function load_pirated(){
+            var class_pirated = document.getElementsByClassName("pirated")[0];
+            var pirated = class_pirated.getElementsByTagName("details")[0];
+            var pirated2 = class_pirated.getElementsByTagName("details")[1];
+            if(window.XMLHttpRequest){
+                var pirated_request = new XMLHttpRequest();
+            }else{
+                var pirated_request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            pirated_request.open("GET","pirated.json",true);
+            pirated_request.send();
+            pirated_request.onreadystatechange = function(){
+                if(pirated_request.readyState == 4 && pirated_request.status == 200){
+                    var pirated_json = JSON.parse(pirated_request.responseText);
+                    console.log(pirated_json);
+                }
+            }
+        }
 	</script>
 </html>
 
