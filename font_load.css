@@ -1,0 +1,7 @@
+@font-face{
+    font-family: "SanJiLingYunZhangCao";
+    src: url("https://zhaobokai341.github.io/font/SanJiLingYunZhangCao-2.ttf") format("truetype");
+}
+*{
+    font-family: "SanJiLingYunZhangCao";
+}
