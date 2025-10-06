@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="keywords" content="vip视频,vip视频免费,vip免费,vip视频免费看,vip免费看,看我免费看vip,看我免费看vip视频,zhaobokai341,编程博凯">
 		<meta name="description" content="免费看几乎中国各大主流视频平台vip/svip的视频">
-		<link rel="icon" href="favicon.ico">\
+		<link rel="icon" href="favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/font_load.css"/>
 		<title>看我免费看vip视频</title>
 		<style>
@@ -37,7 +37,7 @@
 			.button a:active{
 			    border-style: ridge;
 			}
-			.input_url label{
+			#input_url label{
 				width: 100px;
 				height: 100px;
 				border-radius: 50px;
@@ -45,7 +45,7 @@
 				font-size: 20px;
 				margin: 10px;
 			}
-			.input_url input{
+			#input_url input{
 				width: 1000px;
 				height: 50px;
 				font-size: 20px;
@@ -55,7 +55,7 @@
 				background: linear-gradient(90deg, skyblue, yellowgreen);
 				transition: all 0.5s linear;
 			}
-			.input_url input:focus{
+			#input_url input:focus{
 				padding: 30px 80px;
 				font-size: 50px;
 				background: pink;
@@ -87,6 +87,11 @@
 			.hidden{
 				visibility: hidden;
 			}
+			#iframe iframe{
+				border: 5px solid yellowgreen;
+				border-radius: 10px;
+				overflow: auto;
+			}
 			#error{
 				width: 100%;
 				height: 50px;
@@ -94,7 +99,7 @@
 				color: white;
 				font-size: 30px;
 				padding: 10px;
-				position: relative;
+				position: fixed;
 				top: 0;
 				left: 0;
 				display: none;
@@ -110,16 +115,18 @@
 		<center>
 			<h1>看我免费看vip视频</h1>
 			<p>在这里，你可以免费看几乎中国各大主流视频平台的vip/svip视频</p>
-			<iframe src="https://zhaobokai341.github.io" width="1000" height="600"></iframe>
+			<div id="iframe">
+				<iframe src="https://zhaobokai341.github.io" width="1000" height="600"></iframe>
+			</div>
 			<div class="hidden" style="height: 30px"></div>
-			<div class="input_url">
+			<div id="input_url">
 				<label>请输入URL链接：</label>
 				<input type="text" value="https://zhaobokai341.github.io">
 			</div>
 			<div class="button">
-				<a>在当前窗口播放</a>
-				<a>新窗口播放</a>
-				<a>复制URL链接</a>
+				<a href="javascript:self_play()">在当前窗口播放</a>
+				<a href="javascript:blank_play()">新窗口播放</a>
+				<a href="javascript:copy_url()">复制URL链接</a>
 			</div>
 			<div id="pirated">
 				<h2>盗版链接</h2>
@@ -133,7 +140,7 @@
 		</center>
 		<script>
 			function show_error(message){
-				document.getElementById("error").innerHTML = message + `<button style="position: absolute; top: 20px; right: 20px; font-size: 20px" onclick="document.getElementById('error').style.display = 'none'">×</button>`;
+				document.getElementById("error").innerHTML = message + `<button style="position: fixed; top: 20px; right: 20px; font-size: 20px" onclick="document.getElementById('error').style.display = 'none'">×</button>`;
 				document.getElementById("error").style.display = "block";
 			}
 			function show_pirated(pirated_json){
@@ -146,26 +153,30 @@
 				var pirated2 = class_pirated.getElementsByTagName("details")[1];
 				for(var i = 0;i < pirated_json["pirated"].length;i++){
 					var input = document.createElement("input");
+					var url = pirated_json["pirated"][i].url;
+					var error = pirated_json["pirated"][i].error;
 					input.type = "checkbox";
-					input.value = i;
+					input.value = url;
 					input.name = "pirated";
 					var label = document.createElement("label");
 					label.appendChild(input);
 					label.style.display = "block";
-					(pirated_json["pirated"][i].error == "ok")?label.style.color = "green":label.style.color = "red";
-					label.appendChild(document.createTextNode(`${pirated_json["pirated"][i].url} (${pirated_json["pirated"][i].error})`));
+					(error == "ok")?label.style.color = "green":label.style.color = "red";
+					label.appendChild(document.createTextNode(`${url} (${error})`));
 					pirated.appendChild(label);
 				}
 				for(var i = 0;i < pirated_json["pirated2"].length;i++){
 					var input = document.createElement("input");
+					var url = pirated_json["pirated2"][i].url;
+					var error = pirated_json["pirated2"][i].error;
 					input.type = "checkbox";
-					input.value = i;
-					input.name = "pirated2";
+					input.value = url;
+					input.name = "pirated";
 					var label = document.createElement("label");
 					label.appendChild(input);
 					label.style.display = "block";
-					(pirated_json["pirated2"][i].error == "ok")?label.style.color = "green":label.style.color = "red";
-					label.appendChild(document.createTextNode(`${pirated_json["pirated2"][i].url} (${pirated_json["pirated2"][i].error})`));
+					(error == "ok")?label.style.color = "green":label.style.color = "red";
+					label.appendChild(document.createTextNode(`${url} (${error})`));
 					pirated2.appendChild(label);
 				}
 			}
@@ -185,6 +196,87 @@
 				pirated_json = `Fetch error: ${error}`;
 				show_pirated(pirated_json); // 在错误情况下也要调用show_pirated
 			});
+		</script>
+		<script>
+			function get_checked(){
+				var play_list = document.getElementsByName("pirated");
+				var play_list2 = document.getElementsByName("pirated2");
+				var ready_play_list = [];
+				var ready_play_list2 = [];
+				for(var i = 0;i < play_list.length;i++){
+					if(play_list[i].checked){
+						ready_play_list.push(play_list[i].value);
+					}
+				}
+				for(var i = 0;i < play_list2.length;i++){
+					if(play_list2[i].checked){
+						ready_play_list2.push(play_list2[i].value);
+					}
+				}
+				return [ready_play_list,ready_play_list2];
+			}
+			function valid_option(){
+				var play_list = get_checked();
+				if(play_list[0].length + play_list[1].length == 0){
+					show_error("请选择至少一个链接");
+					return false;
+				}
+				if(play_list[1].length > 0){
+					var url = document.getElementById("input_url").getElementsByTagName("input")[0].value;
+					if(url == ""){
+						show_error("请输入URL链接");
+						return false;
+					}
+					if(!url.startsWith("http")){
+						document.getElementById("input_url").getElementsByTagName("input")[0].value = "https://" + url;
+						url = "https://" + url;
+					}
+					url_reg = /^https?:\/\/.+\..+/;
+					if(!url_reg.test(url)){
+						show_error("URL链接格式不正确");
+						return false;
+					}
+				}
+				return true;
+			}
+			function self_play(){
+				if(valid_option()){
+					var ready_play = get_checked();
+					var play_list = ready_play[0];
+					var play_list2 = ready_play[1];
+					var play_list_sum = play_list.length+play_list2.length;
+					if(play_list.length > 0){
+						var iframe = document.getElementById("iframe");
+						iframe.innerHTML = "";
+						for(var i = 0;i < play_list.length;i++){
+							iframe_e = document.createElement("iframe");
+							iframe_e.src = play_list[i];
+							iframe_e.style.width = (play_list_sum>=8)?"10%":`${80/play_list_sum}%`;
+							iframe_e.style.height = `${600/(parseInt(play_list_sum/8.0001)+1)}px`;
+							iframe_e.style.resize = "both";
+							iframe.appendChild(iframe_e);
+						}
+					}
+					if(play_list2.length > 0){
+						var url = document.getElementById("input_url").getElementsByTagName("input")[0].value;
+						for(var i = 0;i < play_list2.length;i++){
+							var iframe_e = document.createElement("iframe");
+							iframe_e.src = play_list2[i].replace("{url}",url);
+							iframe_e.style.width = (play_list_sum>=8.0001)?"10%":`${80/play_list_sum}%`;
+							iframe_e.style.height = `${600/(parseInt(play_list_sum/8)+1)}px`;
+							iframe_e.style.resize = "both";
+							iframe.appendChild(iframe_e);
+						}
+					}
+				}
+			}
+
+			function blank_play(){
+
+			}
+			function copy_url(){
+			    
+			}
 		</script>
 	</body>
 </html>
