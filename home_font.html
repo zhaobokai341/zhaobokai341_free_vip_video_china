@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="keywords" content="vip视频,vip视频免费,vip免费,vip视频免费看,vip免费看,看我免费看vip,看我免费看vip视频,zhaobokai341,编程博凯">
 		<meta name="description" content="免费看几乎中国各大主流视频平台vip/svip的视频">
-		<link rel="icon" href="favicon.ico">
-		<link rel="stylesheet" href="font_load.css">
+		<link rel="icon" href="favicon.ico">\
+		<link rel="stylesheet" type="text/css" href="css/font_load.css"/>
 		<title>看我免费看vip视频</title>
 		<style>
 			.warning{
@@ -62,12 +62,27 @@
 				border-radius: 25px;
 				border: 10px ridge greenyellow;
 			}
-			.pirated{
+			#pirated{
 				margin: 10px;
-				font-size: 30px;
+				font-size: 40px;
 			}
-			.pirated label{
-				display:block;
+			#pirated summary{
+				font-size: 30px;
+				width: 400px;
+				border: 10px solid red;
+				background: linear-gradient(45deg, blue, green, red);
+				border-radius: 15px;
+				margin: 10px;
+				transition: all 0.3s linear;
+			}
+			#pirated summary:hover{
+				padding: 10px;
+				border-color: hotpink;
+				background: linear-gradient(80deg, red, green, purple);
+			}
+			#pirated label:hover{
+			    padding: 15px;
+				border: 5px dashed yellow;
 			}
 			.hidden{
 				visibility: hidden;
@@ -86,10 +101,8 @@
 			}
 		</style>
 	</head>
-	<body style="background: linear-gradient(45deg, rgb(255, 251, 0), rgb(138, 205, 50), rgb(0, 255, 242));">
-		<div id="error">
-			<a style="float: right;font-size: 30px; color: white; text-decoration: none;" href="javascript:document.getElementById('error').style.display='none'">x</a>
-		</div>
+	<body style="background-image: url(img/images.jpg);background-size: cover;backdrop-filter: blur(3px);">
+		<div id="error"></div>
 		<div class="float" style="width: 200px;">
 			<img id="icon" src="favicon.ico" style="float: left;">
 			<p class="warning">!! 本网站没有消费和广告，链接来自互联网收集，如有，请勿轻信广告消费内容，若造成损失，概不负责</p>
@@ -120,7 +133,7 @@
 		</center>
 		<script>
 			function show_error(message){
-				document.getElementById("error").innerHTML = message;
+				document.getElementById("error").innerHTML = message + `<button style="position: absolute; top: 20px; right: 20px; font-size: 20px" onclick="document.getElementById('error').style.display = 'none'">×</button>`;
 				document.getElementById("error").style.display = "block";
 			}
 			function show_pirated(pirated_json){
@@ -134,7 +147,7 @@
 				for(var i = 0;i < pirated_json["pirated"].length;i++){
 					var input = document.createElement("input");
 					input.type = "checkbox";
-					input.value = pirated_json["pirated"][i];
+					input.value = i;
 					input.name = "pirated";
 					var label = document.createElement("label");
 					label.appendChild(input);
@@ -146,7 +159,7 @@
 				for(var i = 0;i < pirated_json["pirated2"].length;i++){
 					var input = document.createElement("input");
 					input.type = "checkbox";
-					input.value = pirated_json["pirated2"][i];
+					input.value = i;
 					input.name = "pirated2";
 					var label = document.createElement("label");
 					label.appendChild(input);
