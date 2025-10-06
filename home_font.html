@@ -5,7 +5,7 @@
 		<meta name="keywords" content="vip视频,vip视频免费,vip免费,vip视频免费看,vip免费看,看我免费看vip,看我免费看vip视频,zhaobokai341,编程博凯">
 		<meta name="description" content="免费看几乎中国各大主流视频平台vip/svip的视频">
 		<link rel="icon" href="favicon.ico">
-        <link rel="stylesheet" href="font_load.css">
+		<link rel="stylesheet" href="font_load.css">
 		<title>看我免费看vip视频</title>
 		<style>
 			.warning{
@@ -66,14 +66,32 @@
 				margin: 10px;
 				font-size: 30px;
 			}
+			.pirated label{
+				display:block;
+			}
 			.hidden{
 				visibility: hidden;
+			}
+			#error{
+				width: 100%;
+				height: 50px;
+				background-color: red;
+				color: white;
+				font-size: 30px;
+				padding: 10px;
+				position: relative;
+				top: 0;
+				left: 0;
+				display: none;
 			}
 		</style>
 	</head>
 	<body style="background: linear-gradient(45deg, rgb(255, 251, 0), rgb(138, 205, 50), rgb(0, 255, 242));">
+		<div id="error">
+			<a style="float: right;font-size: 30px; color: white; text-decoration: none;" href="javascript:document.getElementById('error').style.display='none'">x</a>
+		</div>
 		<div class="float" style="width: 200px;">
-			<img class="icon" src="favicon.ico" style="float: left;">
+			<img id="icon" src="favicon.ico" style="float: left;">
 			<p class="warning">!! 本网站没有消费和广告，链接来自互联网收集，如有，请勿轻信广告消费内容，若造成损失，概不负责</p>
 		</div>
 		<center>
@@ -88,10 +106,9 @@
 			<div class="button">
 				<a>在当前窗口播放</a>
 				<a>新窗口播放</a>
-				<a>同时播放</a>
 				<a>复制URL链接</a>
 			</div>
-			<div class="pirated">
+			<div id="pirated">
 				<h2>盗版链接</h2>
 				<details>
 					<summary>盗版收集链接</summary>
@@ -101,26 +118,60 @@
 				</details>
 			</div>
 		</center>
+		<script>
+			function show_error(message){
+				document.getElementById("error").innerHTML = message;
+				document.getElementById("error").style.display = "block";
+			}
+			function show_pirated(pirated_json){
+				if(typeof pirated_json != "object"){
+					show_error(pirated_json);
+					return;
+				}
+			    var class_pirated = document.getElementById("pirated");
+				var pirated = class_pirated.getElementsByTagName("details")[0];
+				var pirated2 = class_pirated.getElementsByTagName("details")[1];
+				for(var i = 0;i < pirated_json["pirated"].length;i++){
+					var input = document.createElement("input");
+					input.type = "checkbox";
+					input.value = pirated_json["pirated"][i];
+					input.name = "pirated";
+					var label = document.createElement("label");
+					label.appendChild(input);
+					label.style.display = "block";
+					(pirated_json["pirated"][i].error == "ok")?label.style.color = "green":label.style.color = "red";
+					label.appendChild(document.createTextNode(`${pirated_json["pirated"][i].url} (${pirated_json["pirated"][i].error})`));
+					pirated.appendChild(label);
+				}
+				for(var i = 0;i < pirated_json["pirated2"].length;i++){
+					var input = document.createElement("input");
+					input.type = "checkbox";
+					input.value = pirated_json["pirated2"][i];
+					input.name = "pirated2";
+					var label = document.createElement("label");
+					label.appendChild(input);
+					label.style.display = "block";
+					(pirated_json["pirated2"][i].error == "ok")?label.style.color = "green":label.style.color = "red";
+					label.appendChild(document.createTextNode(`${pirated_json["pirated2"][i].url} (${pirated_json["pirated2"][i].error})`));
+					pirated2.appendChild(label);
+				}
+			}
+			var pirated_json;
+			fetch('pirated.json')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				return response.json(); // 添加这行来解析JSON
+			})
+			.then(data => {
+				pirated_json = data;
+				show_pirated(pirated_json); // 在这里调用show_pirated
+			})
+			.catch(error => {
+				pirated_json = `Fetch error: ${error}`;
+				show_pirated(pirated_json); // 在错误情况下也要调用show_pirated
+			});
+		</script>
 	</body>
-	<script>
-        function load_pirated(){
-            var class_pirated = document.getElementsByClassName("pirated")[0];
-            var pirated = class_pirated.getElementsByTagName("details")[0];
-            var pirated2 = class_pirated.getElementsByTagName("details")[1];
-            if(window.XMLHttpRequest){
-                var pirated_request = new XMLHttpRequest();
-            }else{
-                var pirated_request = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            pirated_request.open("GET","pirated.json",true);
-            pirated_request.send();
-            pirated_request.onreadystatechange = function(){
-                if(pirated_request.readyState == 4 && pirated_request.status == 200){
-                    var pirated_json = JSON.parse(pirated_request.responseText);
-                    console.log(pirated_json);
-                }
-            }
-        }
-	</script>
 </html>
-

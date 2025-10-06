@@ -65,9 +65,13 @@
             "error": "ok"
         }
     ],
-    "priated2":[
+    "pirated2":[
         {
             "url": "https://video.isyour.love/player/getplayer?&adadress={}",
+            "error": "ok"
+        },
+        {
+            "url": "https://www.521kan.com/?url={}",
             "error": "ok"
         }
     ]

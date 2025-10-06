@@ -65,6 +65,9 @@
 				margin: 10px;
 				font-size: 30px;
 			}
+			.pirated label{
+				display:block;
+			}
 			.hidden{
 				visibility: hidden;
 			}
@@ -84,7 +87,7 @@
 	</head>
 	<body style="background: linear-gradient(45deg, rgb(255, 251, 0), rgb(138, 205, 50), rgb(0, 255, 242));">
 		<div id="error">
-			<a style="float: right; font-size: 30px; color: white; text-decoration: none;" href="javascript:document.getElementById('error').style.display='none'">x</a>
+			<a style="float: right;font-size: 30px; color: white; text-decoration: none;" href="javascript:document.getElementById('error').style.display='none'">x</a>
 		</div>
 		<div class="float" style="width: 200px;">
 			<img id="icon" src="favicon.ico" style="float: left;">
@@ -102,7 +105,6 @@
 			<div class="button">
 				<a>在当前窗口播放</a>
 				<a>新窗口播放</a>
-				<a>同时播放</a>
 				<a>复制URL链接</a>
 			</div>
 			<div id="pirated">
@@ -120,27 +122,6 @@
 				document.getElementById("error").innerHTML = message;
 				document.getElementById("error").style.display = "block";
 			}
-			function pirated_response(){
-				if(window.XMLHttpRequest){
-					var pirated_request = new XMLHttpRequest();
-				}else{
-					var pirated_request = new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				try{
-					pirated_request.open("GET","pirated.json",true);
-					pirated_request.send();
-					pirated_request.onreadystatechange = function(){
-						if(pirated_request.readyState == 4 && pirated_request.status == 200){
-							var pirated_json = JSON.parse(pirated_request.responseText);
-							return pirated_json;
-						}else{
-							return `error: pirated_request.readyState(${pirated_request.readyState}) pirated_request.status(${pirated_request.status})`;
-						}
-					}
-				}catch(e){
-				    return `error: ${e}`;
-				}
-			}
 			function show_pirated(pirated_json){
 				if(typeof pirated_json != "object"){
 					show_error(pirated_json);
@@ -150,13 +131,46 @@
 				var pirated = class_pirated.getElementsByTagName("details")[0];
 				var pirated2 = class_pirated.getElementsByTagName("details")[1];
 				for(var i = 0;i < pirated_json["pirated"].length;i++){
-					console.log(pirated_json["pirated"][i]);
+					var input = document.createElement("input");
+					input.type = "checkbox";
+					input.value = pirated_json["pirated"][i];
+					input.name = "pirated";
+					var label = document.createElement("label");
+					label.appendChild(input);
+					label.style.display = "block";
+					(pirated_json["pirated"][i].error == "ok")?label.style.color = "green":label.style.color = "red";
+					label.appendChild(document.createTextNode(`${pirated_json["pirated"][i].url} (${pirated_json["pirated"][i].error})`));
+					pirated.appendChild(label);
 				}
 				for(var i = 0;i < pirated_json["pirated2"].length;i++){
-					console.log(pirated_json["pirated2"][i]);
+					var input = document.createElement("input");
+					input.type = "checkbox";
+					input.value = pirated_json["pirated2"][i];
+					input.name = "pirated2";
+					var label = document.createElement("label");
+					label.appendChild(input);
+					label.style.display = "block";
+					(pirated_json["pirated2"][i].error == "ok")?label.style.color = "green":label.style.color = "red";
+					label.appendChild(document.createTextNode(`${pirated_json["pirated2"][i].url} (${pirated_json["pirated2"][i].error})`));
+					pirated2.appendChild(label);
 				}
 			}
-			show_pirated(pirated_response());
+			var pirated_json;
+			fetch('pirated.json')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				return response.json(); // 添加这行来解析JSON
+			})
+			.then(data => {
+				pirated_json = data;
+				show_pirated(pirated_json); // 在这里调用show_pirated
+			})
+			.catch(error => {
+				pirated_json = `Fetch error: ${error}`;
+				show_pirated(pirated_json); // 在错误情况下也要调用show_pirated
+			});
 		</script>
 	</body>
 </html>
