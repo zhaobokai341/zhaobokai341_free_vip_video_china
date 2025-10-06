@@ -5,7 +5,7 @@
 		<meta name="keywords" content="vip视频,vip视频免费,vip免费,vip视频免费看,vip免费看,看我免费看vip,看我免费看vip视频,zhaobokai341,编程博凯">
 		<meta name="description" content="免费看几乎中国各大主流视频平台vip/svip的视频">
 		<link rel="icon" href="favicon.ico">
-		<link rel="stylesheet" type="text/css" href="css/font_load.css"/>
+		<link rel="stylesheet" type="text/css" href="css/home_font.css">
 		<title>看我免费看vip视频</title>
 		<style>
 			.warning{
@@ -13,6 +13,12 @@
 				float: left;
 				font-size: 30px;
 				color: red;
+			}
+			.note{
+				clear: right;
+				float: right;
+				font-size: 30px;
+				color: blue;
 			}
 			.button a{
 				display: inline-block;
@@ -95,7 +101,6 @@
 			#error{
 				width: 100%;
 				height: 50px;
-				background-color: red;
 				color: white;
 				font-size: 30px;
 				padding: 10px;
@@ -111,6 +116,16 @@
 		<div class="float" style="width: 200px;">
 			<img id="icon" src="favicon.ico" style="float: left;">
 			<p class="warning">!! 本网站没有消费和广告，链接来自互联网收集，如有，请勿轻信广告消费内容，若造成损失，概不负责</p>
+		</div>
+		<div class="float" style="width: 200px;float:right;">
+			<p class="note">
+			当选择“盗版收集链接”时，不需要输入url就可以打开。
+			当选择“盗版链接”时，需要输入url才能打开。
+			url建议加上协议，以提高准确性
+			</p>
+			<p class="note">
+			当选择“复制URL链接”时，如选中多条URL，复制的URL将以逗号分隔。
+			</p>
 		</div>
 		<center>
 			<h1>看我免费看vip视频</h1>
@@ -139,13 +154,20 @@
 			</div>
 		</center>
 		<script>
-			function show_error(message){
+			function show_message(message, type = "error"){
+				if(type == "error"){
+					document.getElementById("error").style.backgroundColor = "red";
+				}else if(type == "warning"){
+					document.getElementById("error").style.backgroundColor = "yellow";
+				}else if(type == "success"){
+					document.getElementById("error").style.backgroundColor = "green";
+				}
 				document.getElementById("error").innerHTML = message + `<button style="position: fixed; top: 20px; right: 20px; font-size: 20px" onclick="document.getElementById('error').style.display = 'none'">×</button>`;
 				document.getElementById("error").style.display = "block";
 			}
 			function show_pirated(pirated_json){
 				if(typeof pirated_json != "object"){
-					show_error(pirated_json);
+					show_message(pirated_json);
 					return;
 				}
 			    var class_pirated = document.getElementById("pirated");
@@ -218,13 +240,13 @@
 			function valid_option(){
 				var play_list = get_checked();
 				if(play_list[0].length + play_list[1].length == 0){
-					show_error("请选择至少一个链接");
+					show_message("请选择至少一个链接");
 					return false;
 				}
 				if(play_list[1].length > 0){
 					var url = document.getElementById("input_url").getElementsByTagName("input")[0].value;
 					if(url == ""){
-						show_error("请输入URL链接");
+						show_message("请输入URL链接");
 						return false;
 					}
 					if(!url.startsWith("http")){
@@ -233,7 +255,7 @@
 					}
 					url_reg = /^https?:\/\/.+\..+/;
 					if(!url_reg.test(url)){
-						show_error("URL链接格式不正确");
+						show_message("URL链接格式不正确");
 						return false;
 					}
 				}
@@ -245,25 +267,26 @@
 					var play_list = ready_play[0];
 					var play_list2 = ready_play[1];
 					var play_list_sum = play_list.length+play_list2.length;
+					var iframe = document.getElementById("iframe");
 					if(play_list.length > 0){
-						var iframe = document.getElementById("iframe");
 						iframe.innerHTML = "";
 						for(var i = 0;i < play_list.length;i++){
 							iframe_e = document.createElement("iframe");
 							iframe_e.src = play_list[i];
-							iframe_e.style.width = (play_list_sum>=8.0001)?"10%":`${80/play_list_sum}%`;
-							iframe_e.style.height = `${600/(parseInt(play_list_sum/8)+1)}px`;
+							iframe_e.style.width = (play_list_sum>=8.0001)?"10%":`${72/play_list_sum}%`;
+							iframe_e.style.height = `${600/(parseInt(play_list_sum/8.0001)+1)}px`;
 							iframe_e.style.resize = "both";
 							iframe.appendChild(iframe_e);
 						}
 					}
 					if(play_list2.length > 0){
+						iframe.innerHTML = "";
 						var url = document.getElementById("input_url").getElementsByTagName("input")[0].value;
 						for(var i = 0;i < play_list2.length;i++){
 							var iframe_e = document.createElement("iframe");
 							iframe_e.src = play_list2[i].replace("{url}",url);
-							iframe_e.style.width = (play_list_sum>=8.0001)?"10%":`${80/play_list_sum}%`;
-							iframe_e.style.height = `${600/(parseInt(play_list_sum/8)+1)}px`;
+							iframe_e.style.width = (play_list_sum>=8.0001)?"10%":`${72/play_list_sum}%`;
+							iframe_e.style.height = `${600/(parseInt(play_list_sum/8.0001)+1)}px`;
 							iframe_e.style.resize = "both";
 							iframe.appendChild(iframe_e);
 						}
@@ -272,10 +295,48 @@
 			}
 
 			function blank_play(){
-
+				if(valid_option()){
+					var ready_play = get_checked();
+					var play_list = ready_play[0];
+					var play_list2 = ready_play[1];
+					var play_list_sum = play_list.length+play_list2.length;
+					if(play_list.length > 0){
+						for(var i = 0;i < play_list.length;i++){
+							window.open(play_list[i]);
+						}
+					}
+					if(play_list2.length > 0){
+						var url = document.getElementById("input_url").getElementsByTagName("input")[0].value;
+						for(var i = 0;i < play_list2.length;i++){
+							window.open(play_list2[i].replace("{url}",url));
+						}
+					}
+				}
 			}
 			function copy_url(){
-			    
+			    var ready_play = get_checked();
+				url_list = []
+				if(ready_play[0].length > 0){
+					for(var i = 0;i < ready_play[0].length;i++){
+						url_list.push(ready_play[0][i]);
+					}
+				}
+				if(ready_play[1].length > 0){
+					for(var i = 0;i < ready_play[1].length;i++){
+						url_list.push(ready_play[1][i]);
+					}
+				}
+				if(url_list.length == 0){
+					show_message("请选择至少一个链接");
+					return;
+				}
+				if(url_list.length == 1){
+					navigator.clipboard.writeText(url_list[0]);
+					show_message("已复制链接", "success");
+				}else{
+					navigator.clipboard.writeText(url_list);
+					show_message("已复制链接", "success");
+				}
 			}
 		</script>
 	</body>
