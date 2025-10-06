@@ -171,7 +171,7 @@
 					var error = pirated_json["pirated2"][i].error;
 					input.type = "checkbox";
 					input.value = url;
-					input.name = "pirated";
+					input.name = "pirated2";
 					var label = document.createElement("label");
 					label.appendChild(input);
 					label.style.display = "block";
@@ -251,8 +251,8 @@
 						for(var i = 0;i < play_list.length;i++){
 							iframe_e = document.createElement("iframe");
 							iframe_e.src = play_list[i];
-							iframe_e.style.width = (play_list_sum>=8)?"10%":`${80/play_list_sum}%`;
-							iframe_e.style.height = `${600/(parseInt(play_list_sum/8.0001)+1)}px`;
+							iframe_e.style.width = (play_list_sum>=8.0001)?"10%":`${80/play_list_sum}%`;
+							iframe_e.style.height = `${600/(parseInt(play_list_sum/8)+1)}px`;
 							iframe_e.style.resize = "both";
 							iframe.appendChild(iframe_e);
 						}

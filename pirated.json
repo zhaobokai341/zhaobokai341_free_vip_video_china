@@ -63,7 +63,7 @@
     ],
     "pirated2":[
         {
-            "url": "https://video.isyour.love/player/getplayer?&adadress={}",
+            "url": "https://video.isyour.love/player/getplayer?&adadress={url}",
             "error": "ok"
         }
     ]
