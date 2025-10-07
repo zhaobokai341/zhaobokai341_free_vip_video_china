@@ -2,7 +2,10 @@ import random
 import requests
 import json
 import re
+from urllib3.exceptions import InsecureRequestWarning
+import warnings
 
+warnings.filterwarnings('ignore', category=InsecureRequestWarning)
 url_regex = r'https?://.+..+'
 def read_file(file_name):
     with open(file_name, 'r') as file:
@@ -27,7 +30,7 @@ def check_can_access(url):
 
     random_user_agent = random.choice(user_agents)
     try:
-        response = requests.get(url, timeout=10, headers={"User-Agent": random_user_agent})
+        response = requests.get(url, timeout=10, headers={"User-Agent": random_user_agent}, verify=False)
         if response.status_code == 200 and response.url == url:
             return True
         else:
@@ -39,7 +42,13 @@ def save_result(file_name, json_data):
     with open(file_name, 'w') as file:
         json.dump(json_data, file, ensure_ascii=False, indent=4)
 
+def remove_same_url(json_data):
+    json_data['pirated'] = list({v['url']: v for v in json_data['pirated']}.values())
+    json_data['pirated2'] = list({v['url']: v for v in json_data['pirated2']}.values())
+    return json_data
+
 json_data = read_file('pirated.json')
+#json_data = read_file('test/test.json')
 print(json_data)
 for item in json_data['pirated']:
     print(f"Checking URL: {item['url']}")
@@ -64,5 +73,6 @@ for item in json_data['pirated2']:
     else:
         print("ok")
         item['error'] = "ok"
+json_data = remove_same_url(json_data)
 save_result('pirated_result.json', json_data)
 print("Done")

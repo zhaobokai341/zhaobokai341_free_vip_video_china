@@ -1,11 +1,11 @@
 {
     "pirated": [
         {
-            "url": "https://v.vps6.cn/#kj",
+            "url": "https://v.vps6.cn/",
             "error": "ok"
         },
         {
-            "url": "https://www.lihuaban.cn/qita/vip/index.html#kj",
+            "url": "https://www.lihuaban.cn/qita/vip/index.html",
             "error": "ok"
         },
         {
@@ -53,17 +53,125 @@
             "error": "ok"
         },
         {
-            "url": "https://online.yandex.com/search?text=vip+%E8%A7%86+%E9%A2%91+%2B%E7%BA%BF+%E8%B7%AF&lr=21414&p=2&primary_reqid=1759671443861386-5836003987197196192-balancer-l7leveler-kubr-yp-klg-82-BAL",
+            "url": "http://www.16k8.cn/",
+            "error": "ok"
+        },
+        {
+            "url": "https://timecn.cn/",
+            "error": "ok"
+        },
+        {
+            "url": "http://vip.cmov.cn/",
+            "error": "ok"
+        },
+        {
+            "url": "https://vip.lanrenn.cn/",
+            "error": "ok"
+        },
+        {
+            "url": "https://www.xxphp.cn/",
+            "error": "ok"
+        },
+        {
+            "url": "https://online.yandex.com/search?text=vip+%E8%A7%86+%E9%A2%91+%2B%E7%BA%BF+%E8%B7%AF&lr=21414&p=4&primary_reqid=1759671443861386-5836003987197196192-balancer-l7leveler-kubr-yp-klg-82-BAL&rnd=66794",
             "error": "Cannot access URL or HTTPS status code is not 200 or URL redirected"
         }
     ],
     "pirated2": [
         {
+            "url": "https://wannengrun.net/s/?k={url}",
+            "error": "ok"
+        },
+        {
             "url": "https://video.isyour.love/player/getplayer?&adadress={url}",
             "error": "ok"
         },
         {
-            "url": "https://wannengrun.net/s/?k={url}",
+            "url": "https://jx.xmflv.cc/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.xmflv.com/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://yparse.ik9.cc/index.php?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.nnxv.cn/tv.php?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://z1.m1907.top/?jx={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.2s0.cn/player/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jiexi.789jiexi.icu:4433/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.973973.xyz/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.hls.one/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://video.isyour.love/player/getplayer?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.m3u8.tv/jiexi/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://z1.im1907.top/?jx={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.xyflv.cc/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.playerjy.com/?ads=0&url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.xmflv.com/?url=https://www.mgtv.com",
+            "error": "ok"
+        },
+        {
+            "url": "https://a.wkvip.net/{url}",
+            "error": "Cannot access URL or HTTPS status code is not 200"
+        },
+        {
+            "url": "https://www.8090g.cn/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jx.77flv.cc/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://api.huohua.live/bfq/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://jiexi.555959.xyz/player/?url={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://z1.190000000007.top/?jx={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://www.huaqi.live/?url={url}",
             "error": "ok"
         }
     ]
