@@ -1,9 +1,5 @@
 {
-    "pirated":[
-        {
-            "url": "https://wannengrun.net/s/?k=",
-            "error": "ok"
-        },
+    "pirated": [
         {
             "url": "https://v.vps6.cn/#kj",
             "error": "ok"
@@ -58,12 +54,16 @@
         },
         {
             "url": "https://online.yandex.com/search?text=vip+%E8%A7%86+%E9%A2%91+%2B%E7%BA%BF+%E8%B7%AF&lr=21414&p=2&primary_reqid=1759671443861386-5836003987197196192-balancer-l7leveler-kubr-yp-klg-82-BAL",
-            "error": "ok"
+            "error": "Cannot access URL or HTTPS status code is not 200 or URL redirected"
         }
     ],
-    "pirated2":[
+    "pirated2": [
         {
             "url": "https://video.isyour.love/player/getplayer?&adadress={url}",
+            "error": "ok"
+        },
+        {
+            "url": "https://wannengrun.net/s/?k={url}",
             "error": "ok"
         }
     ]
