@@ -42,7 +42,7 @@
         },
         {
             "url": "https://www.jianeryi.com/videos",
-            "error": "ok"
+            "error": "Cannot access URL or HTTPS status code is not 200 or URL redirected"
         },
         {
             "url": "https://v.ssss.fun/",
@@ -100,7 +100,7 @@
         },
         {
             "url": "https://jx.nnxv.cn/tv.php?url={url}",
-            "error": "ok"
+            "error": "Cannot access URL or HTTPS status code is not 200"
         },
         {
             "url": "https://z1.m1907.top/?jx={url}",
